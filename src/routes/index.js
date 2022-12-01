@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAll } from '../controllers/usuario.controller';
+import { getAll, createUser, deleteUser, updateUser } from '../controllers/usuario.controller';
 
 const routes = new Router();
 
@@ -12,4 +12,10 @@ routes.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 routes.get('/usuarios', getAll);
+
+routes.post('/criarUsuario', createUser);
+
+routes.delete('/usuario/:id', deleteUser);
+
+routes.put('/usuario/:id', updateUser);
 export default routes;

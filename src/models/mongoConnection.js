@@ -1,4 +1,5 @@
-const { MongoClient } = require('mongodb');
+// const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 const MONGO_DB_URL = 'mongodb://127.0.0.1:27017';
 const DB_NAME = 'users';
@@ -14,4 +15,4 @@ const connection = () => MongoClient
         process.exit(1);
     });
 
-module.exports = connection;
+export default connection;
