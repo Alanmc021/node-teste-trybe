@@ -9,6 +9,10 @@ const getAll = async (req, res) => {
         {
             email: user.email,
             _id: user[`${id}`],
+            name: user.name,
+            role: user.role,
+            password: user.password,
+
         }
     ));
 
@@ -16,10 +20,9 @@ const getAll = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-    const { email, senha } = req.body;
-
-    const { email: mail, _id } = await criar({ email, senha });
-    return res.status(200).json({ mail, _id });
+    // const { email, password, name, role } = req.body;    
+    const result = await criar({ req });
+    return res.status(201).json({ result });
 };
 
 const deleteUser = async (req, res) => {

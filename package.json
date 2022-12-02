@@ -37,7 +37,8 @@
     "nodemon": "2.0.4",
     "shelljs": "0.8.4",
     "sucrase": "^3.29.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "chai": "4.3.4",

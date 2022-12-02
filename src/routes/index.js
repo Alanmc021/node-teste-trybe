@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import VerififyToken from '../middleware/usuarios.middleware';
+// import VerififyToken from '../middleware/usuarios.middleware';
 import { getAll, createUser, deleteUser, updateUser } from '../controllers/usuario.controller';
 import { requestLogin } from '../models/usuario.model';
 
@@ -16,12 +16,12 @@ routes.get('/', (request, response) => {
 
 routes.get('/login', requestLogin);
 
-routes.get('/usuarios', VerififyToken, getAll);
+routes.get('/usuarios', getAll);
 
-routes.post('/criarUsuario', VerififyToken, createUser);
+routes.post('/criarUsuario', createUser);
 
-routes.delete('/usuario/:id', VerififyToken, deleteUser);
+routes.delete('/usuario/:id', deleteUser);
 
-routes.put('/usuario/:id', VerififyToken, updateUser);
+routes.put('/usuario/:id', updateUser);
 
 export default routes;

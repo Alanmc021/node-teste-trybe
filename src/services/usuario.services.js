@@ -1,16 +1,33 @@
 import { getAll, newUser, userExists, deleta, update } from '../models/usuario.model';
+import validation from './schema.yup';
+
+// const yup = require('yup');
 
 const todos = async () => {
     const users = await getAll();
     return users;
 };
 
-const criar = async ({ email, senha }) => {
+const criar = async ({ req }) => {
+    const { email, password, name, role } = req.body;
+
     const usuario = await userExists({ email });
 
-    if (usuario) return usuario;
+    if (usuario) return 'Invalid entries. Try again.';
 
-    const user = await newUser({ email, senha });
+    const schema = validation;   
+
+    try {
+        await schema.validate(req.body);
+    } catch (err) {
+        return ({
+            erro: true,
+            mensagem: err.errors,
+        });
+    }
+
+    const user = await newUser({ email, password, name, role });
+
     return user;
 };
 
