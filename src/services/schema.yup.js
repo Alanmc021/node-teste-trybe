@@ -1,17 +1,29 @@
 const yup = require('yup');
 
-const schema = yup.object().shape({
+const validationUser = yup.object().shape({
     password:
         yup.string('Erro: Necessário preencher o campo senha!')
             .required('Erro: Necessário preencher o campo senha!')
             .min(6, 'Erro: A senha deve ter no mínimo 6 caracteres!'),
     email:
-        yup.string('Erro: Necessário preencher o campo e-mail!')
-            .required('Erro: Necessário preencher o campo e-mail!')
-            .email('Erro: Necessário preencher o campo com e-mail válido!'),
+        yup.string('Invalid entries . Try again.')
+            .required('Invalid entries.Try again.')
+            .email('Invalid entries.  Try again.'),
     name:
-        yup.string('Erro: Necessário preencher o campo nome!')
-            .required('Erro: Necessário preencher o campo nome!'),
+        yup.string('Invalid entries. Try again .')
+            .required('Invalid entries. Try again .'),
 });
 
-export default schema;
+const validationRecipe = yup.object().shape({
+    preparation:
+        yup.string('Erro: Necessário preencher preparation!')
+            .required('Erro: Necessário preencher preparation!'),            
+    ingredients:
+        yup.string('Invalid entries . Try again.')
+            .required('Invalid entries. Try again.'),           
+    name:
+        yup.string('Invalid entries. Try again.')
+            .required('Invalid entries. Try again.'),
+});
+
+export { validationUser, validationRecipe };

@@ -20,8 +20,8 @@ const getAll = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-    // const { email, password, name, role } = req.body;    
-    const result = await criar({ req });
+    const result = await criar({ req }); 
+    if (result.erro === true) return res.status(400).json({ erro: result.mensagem });
     return res.status(201).json({ result });
 };
 
@@ -34,7 +34,6 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
     const { email, senha } = req.body;
     const { id } = req.params;
-
     const user = await atualizar({ id, email, senha });
     res.status(200).json(user);
 };

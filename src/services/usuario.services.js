@@ -1,5 +1,5 @@
 import { getAll, newUser, userExists, deleta, update } from '../models/usuario.model';
-import validation from './schema.yup';
+import { validationUser } from './schema.yup';
 
 // const yup = require('yup');
 
@@ -13,9 +13,9 @@ const criar = async ({ req }) => {
 
     const usuario = await userExists({ email });
 
-    if (usuario) return 'Invalid entries. Try again.';
+    if (usuario) return 'Email is already registered';
 
-    const schema = validation;   
+    const schema = validationUser;
 
     try {
         await schema.validate(req.body);

@@ -1,8 +1,8 @@
-// import { ObjectId } from 'mongodb';
+/* eslint-disable keyword-spacing */
 import jwt from 'jsonwebtoken';
-// import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
 import connection from './mongoConnection';
+import validation from './schema.yup';
 
 const SECRET = 'paranguaricutirimiruarum';
 
@@ -41,17 +41,31 @@ const update = async ({ id, email, senha }) => {
     return { id, email };
 };
 
-const login = async ({ email, senha }) => {
+const login = async ({ email, password }) => {
     const db = await connection();
-    const user = await db.collection('users').findOne({ email, senha });
+    const user = await db.collection('users').findOne({ email, password });
     return user;
 };
 
+// eslint-disable-next-line max-lines-per-function
 const requestLogin = async (req, res) => {
-    const { email, senha } = req.body;
-    const usuario = await login({ email, senha });
+    const { email, password } = req.body;
 
-    if (!usuario) return res.status(401).json({ message: 'User not found' });
+    const schema = validation;
+
+    try{
+        await schema.validate(req.body);
+      // eslint-disable-next-line space-before-blocks
+      }catch (err){
+        return res.status(400).json({
+          erro: true,
+          mensagem: err.errors,
+        });
+      }
+
+    const usuario = await login({ email, password });
+
+    if (!usuario) return res.status(401).json({ message: 'Incorrect username or password' });
 
     const { _id } = usuario;
 
