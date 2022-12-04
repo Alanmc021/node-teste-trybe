@@ -16,6 +16,7 @@ const SECRET = 'paranguaricutirimiruarum';
 const VerififyToken = (req, res, next) => {
   const token = req.headers.authorization;
   // console.log(token);
+  if (!token) return res.status(401).json({ message: 'missing auth token' });
   try {
     const payload = jwt.verify(token, SECRET);
     // console.log(payload);
@@ -26,7 +27,6 @@ const VerififyToken = (req, res, next) => {
     res.status(401).json({ message: 'jwt malformed' });
   }
 
-  if (!token) return res.status(401).json({ message: 'missing auth token' });
 
 };
 

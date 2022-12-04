@@ -1,4 +1,12 @@
-import { create, getAllRecipe, getByIdRecipe, exclude } from '../services/recipe.services';
+import {
+    create,
+    getAllRecipe,
+    getByIdRecipe,
+    exclude,
+    update,
+    addImage,
+    getByIdImage,
+} from '../services/recipe.services';
 
 const rescue = require('express-rescue');
 
@@ -33,6 +41,40 @@ const deleteRecipe = rescue(async (req, res) => {
     res.status(204).send();
 });
 
+const updateRecipe = rescue(async (req, res) => {
+    const { name, ingredients, preparation } = req.body;
+    const { id } = req.params;
+    const recipeObj = {
+        name, ingredients, preparation, _id: id,
+    };
+    const updatedRecipe = await update(recipeObj);
+    res.status(updatedRecipe.code).json(updatedRecipe.recipe);
+});
+
+const uploadImage = rescue(async (req, res) => {
+    const { id } = req.params;
+    const { path } = req.file;
+
+    const recipeImg = await addImage(id, path);
+    res.status(recipeImg.code).json(recipeImg.recipe);
+});
+
+const getImageById = rescue(async (req, res) => {
+    const { id } = req.params;
+    const recipe = await getByIdImage(id);
+    if (recipe.message) return res.status(recipe.code).json({ message: recipe.message });
+    res.status(200).json(recipe);
+});
+
 const login = async () => null;
 
-export { login, createRecipe, getById, getAll, deleteRecipe };
+export {
+    login,
+    createRecipe,
+    getById,
+    getAll,
+    deleteRecipe,
+    updateRecipe,
+    uploadImage,
+    getImageById,
+};

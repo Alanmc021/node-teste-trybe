@@ -35,6 +35,39 @@ const excludeRecipe = async (id) => {
     await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
 };
 
+const updateRecipe = async (recipe) => {
+    const db = await connection();
+    const { _id, name, ingredients, preparation } = recipe;
+    const updatedRecipe = await db
+        .collection('recipes')
+        .updateOne({ _id: ObjectId(_id) }, { $set: { name, ingredients, preparation } });
+    return updatedRecipe;
+};
+
+const addImageRecipe = async (id, path) => {
+    const db = await connection();
+    const updatedRecipe = await db
+        .collection('recipes')
+        .updateOne({ _id: ObjectId(id) }, { $set: { image: `localhost:3000/${path}` } });
+
+    return updatedRecipe;
+};
+
+const getImageId = async (id) => {
+    const db = await connection();
+    const recipe = await db.collection('recipes').findOne(new ObjectId(id));
+    return recipe.image;
+};
+
 const login = async () => null;
 
-export { newRecipe, getAll, getById, excludeRecipe, login };
+export {
+    newRecipe,
+    getAll,
+    getById,
+    excludeRecipe,
+    updateRecipe,
+    addImageRecipe,
+    getImageId,
+    login,
+};

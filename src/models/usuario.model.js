@@ -15,7 +15,7 @@ const newUser = async ({ email, password, name, role }) => {
     const db = await connection();
     const user = await db.collection('users').insertOne({ email, password, name, role });
     const { insertedId: _id } = user;
-    return { email, _id };
+    return { email, _id, name, role };
 };
 
 const userExists = async ({ email, id }) => {
