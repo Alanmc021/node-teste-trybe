@@ -31,9 +31,8 @@ const createAdmin = rescue(async (req, res) => {
     const { id } = req.params;
     const { userId, role } = req;
     const result = await adminCreate({ id, req, userId, role });
-    if (result === 'Email') res.status(403).json({ res: 'Email already exists' });
-    if (result === false) res.status(403).json({ res: 'Only admins can register new admins' });
-    if (result === true) res.status(201).json({ res: 'adm criando' });
+    if (result.statusCode === 401) return res.status(401).json({ error: result.erro });
+    return res.status(201).json(result); 
 });
 
 const deleteUser = async (req, res) => {
@@ -48,12 +47,9 @@ const updateUser = async (req, res) => {
     const user = await atualizar({ id, email, senha });
     res.status(200).json(user);
 };
-
-const login = async () => null;
-
+ 
 export {
     getAll,
-    login,
     createUser,
     deleteUser,
     updateUser,

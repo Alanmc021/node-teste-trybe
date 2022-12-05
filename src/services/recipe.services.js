@@ -13,11 +13,6 @@ import { validationRecipe } from './schema.yup';
 const { ObjectId } = require('mongodb');
 
 const create = async ({ recipeNew, req }) => {
-    console.log(recipeNew);
-    // const usuario = await userExists({ email });
-
-    // if (usuario) return 'Email is already registered';
-    // console.log(req.body.userId);
     const schema = validationRecipe;
 
     try {
@@ -63,8 +58,6 @@ const update = async (recipe, userId, role, id) => {
         recipe: getRecipe,
     };
 };
-
-// const exclude = async (id) => excludeRecipe(id);
 
 const exclude = async (id, userId, role) => {
     const check = await listRecipeById(id);

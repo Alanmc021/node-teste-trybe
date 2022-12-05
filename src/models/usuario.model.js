@@ -54,10 +54,7 @@ const requestLogin = async (req, res) => {
     try {
         await schema.validate(req.body);
     } catch (err) {
-        return res.status(400).json({
-            erro: true,
-            mensagem: err.errors,
-        });
+        return res.status(401).json({ mensagem: err.errors });
     }
     const usuario = await login({ email, password });
 
@@ -65,7 +62,7 @@ const requestLogin = async (req, res) => {
     const { _id, role } = usuario;
 
     const newToken = jwt.sign({ userId: _id, email, role }, SECRET, { expiresIn: 1440 });
-    return res.status(201).json({ token: newToken });
+    return res.status(200).json({ token: newToken });
 };
 
 export { getAll, newUser, login, userExists, deleta, update, requestLogin };

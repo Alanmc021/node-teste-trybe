@@ -8,7 +8,7 @@
     "start": "nodemon src/api/server.js",
     "dev": "nodemon .",
     "dev:test": "mocha ./src/integration-tests/**/*$NAME*.{test,spec}.js --exit",
-    "dev:test:coverage": "nyc --all npm run dev:test",
+    "dev:test:coverage": "nyc --all npm run dev:src/integration-tests",
     "dev:test:coverage:json": "nyc --all --reporter=json-summary npm run dev:test",
     "lint": "eslint --no-inline-config --ext .js,.jsx --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },

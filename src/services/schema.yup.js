@@ -1,29 +1,31 @@
 const yup = require('yup');
 
+const validationFrase = 'Invalid entries.Try again.';
+
 const validationUser = yup.object().shape({
     password:
-        yup.string('Erro: Necessário preencher o campo senha!')
-            .required('Erro: Necessário preencher o campo senha!')
+        yup.string(validationFrase)
+            .required(validationFrase)
             .min(4, 'Erro: A senha deve ter no mínimo 4 caracteres!'),
     email:
-        yup.string('Invalid entries . Try again.')
-            .required('Invalid entries.Try again.')
-            .email('Invalid entries.  Try again.'),
+        yup.string(validationFrase)
+            .required(validationFrase)
+            .email(validationFrase),
     name:
-        yup.string('Invalid entries. Try again .')
-            .required('Invalid entries. Try again .'),
+        yup.string(validationFrase)
+            .required(validationFrase),
 });
 
 const validationRecipe = yup.object().shape({
     preparation:
-        yup.string('Erro: Necessário preencher preparation!')
-            .required('Erro: Necessário preencher preparation!'),            
+        yup.string(validationFrase)
+            .required(validationFrase),            
     ingredients:
-        yup.string('Invalid entries . Try again.')
-            .required('Invalid entries. Try again.'),           
+        yup.string(validationFrase)
+            .required(validationFrase),           
     name:
-        yup.string('Invalid entries. Try again.')
-            .required('Invalid entries. Try again.'),
+        yup.string(validationFrase)
+            .required(validationFrase),
 });
 
 export { validationUser, validationRecipe };

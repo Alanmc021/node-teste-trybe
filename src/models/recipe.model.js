@@ -1,12 +1,6 @@
-// import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import connection from './mongoConnection';
-
-// const { ObjectId } = require('mongodb');
-// import validation from './schema.yup';
-
-// const SECRET = 'paranguaricutirimiruarum';
-// { "name" : "Receita do Jacquin", "ingredients" : "Frango", "preparation" : "10 minutos no forno" }
+ 
 const listRecipeById = async (id) => {
     const isValid = ObjectId.isValid(id);
     if (!isValid) return null;
@@ -71,8 +65,6 @@ const getImageId = async (id) => {
     return recipe.image;
 };
 
-const login = async () => null;
-
 export {
     newRecipe,
     getAll,
@@ -80,7 +72,6 @@ export {
     excludeRecipe,
     updateRecipe,
     addImageRecipe,
-    getImageId,
-    login,
+    getImageId,    
     listRecipeById,
 };
