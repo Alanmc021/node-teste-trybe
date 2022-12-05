@@ -1,4 +1,5 @@
 import { getAll, newUser, userExists, deleta, update } from '../models/usuario.model';
+// import { listRecipeById } from '../models/recipe.model';
 import { validationUser } from './schema.yup';
 
 // const yup = require('yup');
@@ -46,7 +47,24 @@ const atualizar = async ({ id, email, senha }) => {
     const user = await update({ id, email, senha });
     return user;
 };
+const adminCreate = async ({ req, role }) => {
+    const { email, password, name } = req.body;
 
-const login = async () => null;
+    const usuario = await userExists({ email });
+    // console.log(role);
+    if (usuario) return 'Email';
 
-export { todos, login, criar, deletar, atualizar };
+    if (role === 'admin') {
+        await newUser({ email, password, name, role });
+        return true;
+    }
+    return false;
+};
+
+export {
+    todos,
+    criar,
+    deletar,
+    atualizar,
+    adminCreate,
+};

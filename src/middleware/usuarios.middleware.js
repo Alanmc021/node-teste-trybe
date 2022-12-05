@@ -1,33 +1,19 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = 'paranguaricutirimiruarum';
-
-// function VerififyToken(req, res, next) {
-//   const token = req.headers.authorization;
-
-//   jtw.verify(token, SECRET, (err) => {
-//     if (err) {
-//       return res.status(401).json({ message: 'Invalid token' });
-//     }
-//     return next();
-//   });
-// }
+const SECRET = 'hdHJHJDJ893399HYHHLll232344';
 
 const VerififyToken = (req, res, next) => {
-  const token = req.headers.authorization;
-  // console.log(token);
+  const token = req.headers.authorization; 
   if (!token) return res.status(401).json({ message: 'missing auth token' });
   try {
-    const payload = jwt.verify(token, SECRET);
-    // console.log(payload);
-    const { userId } = payload;
+    const payload = jwt.verify(token, SECRET);   
+    const { userId, role } = payload;
     req.userId = userId;
+    req.role = role;     
     next();
   } catch (_error) {
     res.status(401).json({ message: 'jwt malformed' });
   }
-
-
 };
 
 export default VerififyToken;

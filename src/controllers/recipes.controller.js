@@ -37,25 +37,36 @@ const getById = rescue(async (req, res) => {
 
 const deleteRecipe = rescue(async (req, res) => {
     const { id } = req.params;
-    await exclude(id);
-    res.status(204).send();
+    const { userId, role } = req;
+    const result = await exclude(id, userId, role);
+    if (result === false) {
+        return res.status(401).json({ mensagem: 'Missing auth token.' });
+    }
+    return res.status(204).send();
 });
 
 const updateRecipe = rescue(async (req, res) => {
     const { name, ingredients, preparation } = req.body;
     const { id } = req.params;
+    const { userId, role } = req;
     const recipeObj = {
         name, ingredients, preparation, _id: id,
     };
-    const updatedRecipe = await update(recipeObj);
+    const updatedRecipe = await update(recipeObj, userId, role, id);
+    if (updatedRecipe === false) {
+        return res.status(401).json({ mensagem: 'Missing auth token.' });
+    }
     res.status(updatedRecipe.code).json(updatedRecipe.recipe);
 });
 
 const uploadImage = rescue(async (req, res) => {
     const { id } = req.params;
     const { path } = req.file;
-
-    const recipeImg = await addImage(id, path);
+    const { userId, role } = req;
+    const recipeImg = await addImage(id, path, userId, role);
+    if (recipeImg === false) {
+        return res.status(401).json({ mensagem: 'Missing auth token.' });
+    }
     res.status(recipeImg.code).json(recipeImg.recipe);
 });
 

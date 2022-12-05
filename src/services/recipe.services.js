@@ -6,6 +6,7 @@ import {
     updateRecipe,
     addImageRecipe,
     getImageId,
+    listRecipeById,
 } from '../models/recipe.model';
 import { validationRecipe } from './schema.yup';
 
@@ -49,7 +50,11 @@ const getAllRecipe = async () => {
     return recipes;
 };
 
-const update = async (recipe) => {
+const update = async (recipe, userId, role, id) => {
+    const check = await listRecipeById(id);
+    if (check.userId !== userId && role !== 'admin') {
+        return false;
+    }
     await updateRecipe(recipe);
     const { _id } = recipe;
     const getRecipe = await getById(_id);
@@ -59,9 +64,23 @@ const update = async (recipe) => {
     };
 };
 
-const exclude = async (id) => excludeRecipe(id);
+// const exclude = async (id) => excludeRecipe(id);
 
-const addImage = async (id, path) => {
+const exclude = async (id, userId, role) => {
+    const check = await listRecipeById(id);
+    if (check.userId !== userId && role !== 'admin') {
+        return false;
+    }
+
+    const result = await excludeRecipe(id);
+    return result;
+};
+
+const addImage = async (id, path, userId, role) => {
+    const check = await listRecipeById(id);
+    if (check.userId !== userId && role !== 'admin') {
+        return false;
+    }
     await addImageRecipe(id, path);
     const getRecipe = await getById(id);
     return {

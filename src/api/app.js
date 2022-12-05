@@ -17,8 +17,4 @@ class App {
   }
 }
 
-export default new App().server;
-
-// app.get('/', (request, response) => {
-//   response.send();
-// });
+export default new App().server; 

@@ -4,7 +4,7 @@ const validationUser = yup.object().shape({
     password:
         yup.string('Erro: Necessário preencher o campo senha!')
             .required('Erro: Necessário preencher o campo senha!')
-            .min(6, 'Erro: A senha deve ter no mínimo 6 caracteres!'),
+            .min(4, 'Erro: A senha deve ter no mínimo 4 caracteres!'),
     email:
         yup.string('Invalid entries . Try again.')
             .required('Invalid entries.Try again.')

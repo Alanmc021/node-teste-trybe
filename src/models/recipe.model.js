@@ -1,12 +1,20 @@
 // import jwt from 'jsonwebtoken';
-// import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import connection from './mongoConnection';
 
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 // import validation from './schema.yup';
 
 // const SECRET = 'paranguaricutirimiruarum';
 // { "name" : "Receita do Jacquin", "ingredients" : "Frango", "preparation" : "10 minutos no forno" }
+const listRecipeById = async (id) => {
+    const isValid = ObjectId.isValid(id);
+    if (!isValid) return null;
+
+    const db = await connection();
+    const result = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+    return result;
+};
 
 const newRecipe = async ({ recipeNew }) => {
     const { name, ingredients, preparation, userId } = recipeNew;
@@ -31,8 +39,12 @@ const getById = async (id) => {
 };
 
 const excludeRecipe = async (id) => {
+    const isValid = ObjectId.isValid(id);    
+    if (!isValid) return null;
+
     const db = await connection();
     await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+    return true;
 };
 
 const updateRecipe = async (recipe) => {
@@ -70,4 +82,5 @@ export {
     addImageRecipe,
     getImageId,
     login,
+    listRecipeById,
 };
