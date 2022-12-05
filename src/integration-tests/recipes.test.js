@@ -7,7 +7,7 @@ const { toWeb } = require('form-data');
 // const { expect } = require('chai');
 
 
-const mongoDbUrl = 'mongodb://127.0.0.1:27017';
+const mongoDbUrl = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
 const url = 'http://localhost:3000';
 
 describe('1 - Crie um endpoint para o cadastro de receitas', () => {
