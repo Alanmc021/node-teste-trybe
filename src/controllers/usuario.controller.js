@@ -21,7 +21,7 @@ const getAll = async (req, res) => {
     return res.status(200).json(newList);
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res) => { 
     const result = await criar({ req });
     if (result.erro === true) return res.status(400).json({ erro: result.mensagem });
     return res.status(201).json({ result });

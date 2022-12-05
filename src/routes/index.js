@@ -2,7 +2,12 @@ import { Router } from 'express';
 import path from 'path';
 import upload from '../middleware/uploadImage';
 import VerififyToken from '../middleware/usuarios.middleware';
-import { createUser, deleteUser, updateUser, createAdmin } from '../controllers/usuario.controller';
+import {
+    createUser,
+    deleteUser,
+    updateUser,
+    createAdmin,
+} from '../controllers/usuario.controller';
 import {
     createRecipe,
     getAll,
@@ -31,6 +36,7 @@ routes.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 routes.put('/recipes/:id/image', VerififyToken, upload.single('image'), uploadImage);
 routes.get('/recipesImage/:id', getImageById);
 routes.post('/users/admin', VerififyToken, createAdmin);
+
 // Não remover esse end-point, ele é necessário para o avaliador
 routes.get('/', (request, response) => {
     response.send('');
