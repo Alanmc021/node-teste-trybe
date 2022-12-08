@@ -14,7 +14,6 @@ const getAll = async (req, res) => {
             name: user.name,
             role: user.role,
             password: user.password,
-
         }
     ));
 

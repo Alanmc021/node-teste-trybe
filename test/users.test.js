@@ -2,7 +2,7 @@ const frisby = require('frisby');
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const mongoDbUrl = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
+const mongoDbUrl = 'mongodb://127.0.0.1:27017';
 const url = 'http://localhost:3000';
 
 describe('1 - Crie um endpoint para o cadastro de usuários', () => {
@@ -21,7 +21,8 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = {
-      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin'
+    };
     await db.collection('users').insertOne(users);
   });
 
@@ -39,8 +40,8 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
-        const result = JSON.parse(body);
-        expect(result.message).toBe('Invalid entries. Try again.');
+        const result = JSON.parse(body);      
+        expect(result).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -55,7 +56,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result.message).toBe('Invalid entries. Try again.');
+        expect(result).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -71,7 +72,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result.message).toBe('Invalid entries. Try again.');
+        expect(result).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -86,7 +87,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result.message).toBe('Invalid entries. Try again.');
+        expect(result).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -97,6 +98,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
           name: 'Erick Jacquin',
           email: 'erickjaquin@gmail.com',
           password: '12345678',
+          role: 'User'
         })
       .expect('status', 201);
 
@@ -106,12 +108,13 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
           name: 'Erick Jacquin',
           email: 'erickjaquin@gmail.com',
           password: '12345678',
+          role: 'User'
         })
       .expect('status', 409)
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result.message).toBe('Email already registered');
+        expect(result).toBe('Email already registered');
       });
   });
 
@@ -122,6 +125,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
           name: 'Erick Jacquin',
           email: 'erickjaquin@gmail.com',
           password: '12345678',
+          role: 'user'
         })
       .expect('status', 201)
       .then((response) => {
@@ -140,6 +144,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
           name: 'Erick Jacquin',
           email: 'erickjaquin@gmail.com',
           password: '12345678',
+          role: 'user'
         })
       .expect('status', 201)
       .then((response) => {
@@ -151,6 +156,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
         expect(result.user).not.toHaveProperty('password');
       });
   });
+
 });
 
 describe('2 - Crie um endpoint para o login de usuários', () => {
@@ -168,9 +174,18 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
   beforeEach(async () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
-    const users = {
-      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
-    await db.collection('users').insertOne(users);
+    const users = [
+      {
+        name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin'
+      },
+      {
+        name: 'Erick Jacquin',
+        email: 'erickjacquin@gmail.com',
+        password: '12345678',
+        role: 'user',
+      },
+    ]
+    await db.collection('users').insertMany(users);
   });
 
   afterAll(async () => {
@@ -209,14 +224,14 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
     await frisby
       .post(`${url}/login`,
         {
-          email: 'erickjaquin@3.com',
-          password: '12345678',
+          email: 'erickjaqu222in@3.com',
+          password: '123456782323',
         })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
-        const result = JSON.parse(body);
-        expect(result.message).toBe('Incorrect username or password');
+        const result = JSON.parse(body);     
+        expect(result.message).toBe('Incorrect user name or password');
       });
   });
 
@@ -225,39 +240,29 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
       .post(`${url}/login`,
         {
           email: 'erickjacquin@gmail.com',
-          password: '123456',
+          password: '1234562323',
         })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
-        const result = JSON.parse(body);
-        expect(result.message).toBe('Incorrect username or password');
+        const result = JSON.parse(body);        
+        expect(result.message).toBe('Incorrect user name or password');
       });
   });
 
   it('Será validado que é possível fazer login com sucesso', async () => {
     await frisby
-      .post(`${url}/users/`,
+      .post(`${url}/login`,
         {
-          name: 'Erick Jacquin',
           email: 'erickjacquin@gmail.com',
           password: '12345678',
         })
-      .expect('status', 201)
+      .expect('status', 200)
       .then((response) => {
         const { body } = response;
-        const result = JSON.parse(body);
-        return frisby
-          .post(`${url}/login`,
-            {
-              email: result.user.email,
-              password: '12345678',
-            })
-          .expect('status', 200)
-          .then((responseLogin) => {
-            const { json } = responseLogin;
-            expect(json.token).not.toBeNull();
-          });
+        const result = JSON.parse(body);      
+        expect(result.token).not.toBeNull();        
       });
   });
-});
+
+})

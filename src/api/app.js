@@ -1,20 +1,26 @@
-import express from 'express';
-import routes from '../routes';
+const express = require('express');
+const bodyParser = require('body-parser');
+// const { join } = require('path');
 
-class App {
-  constructor() {
-    this.server = express();
-    this.middlewares();
-    this.routes();
-  }
+// const errorMiddleware = require('../middlewares/error');
+const userControllers = require('../controllers/user');
+// const recipeControllers = require('../controllers/recipes');
+// const validateJWT = require('./auth/validateJWT');
+// const uploadImg = require('../middlewares/uploadImg');
 
-  middlewares() {
-    this.server.use(express.json());
-  }
+const app = express();
 
-  routes() {
-    this.server.use(routes);
-  }
-}
+app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
-export default new App().server; 
+// Não remover esse end-point, ele é necessário para o avaliador
+app.get('/', (request, response) => {
+  response.send('teste');
+});
+// Não remover esse end-point, ele é necessário para o avaliador
+
+
+app.post('/users', userControllers.createUser);
+app.post('/login', userControllers.loginUser);
+
+module.exports = app;
