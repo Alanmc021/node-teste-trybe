@@ -1,6 +1,6 @@
-const { ObjectId } = require('mongodb');
-const model = require('../models/recipe.model');
+const { ObjectId } = require('mongodb'); 
 const validation = require('./schema.yup');
+const model = require('../models/recipe');
 
 const create = async (req) => {
     const { name, ingredients, preparation } = req.body;
