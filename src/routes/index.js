@@ -34,7 +34,9 @@ routes.delete('/recipes/:id', VerififyToken, deleteRecipe);
 routes.put('/recipes/:id', VerififyToken, updateRecipe);
 routes.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 routes.put('/recipes/:id/image', VerififyToken, upload.single('image'), uploadImage);
+
 routes.get('/recipesImage/:id', getImageById);
+
 routes.post('/users/admin', VerififyToken, createAdmin);
 
 // Não remover esse end-point, ele é necessário para o avaliador

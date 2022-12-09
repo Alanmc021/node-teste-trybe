@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import connection from './mongoConnection';
-
+ 
 const listRecipeById = async (id) => {
     const isValid = ObjectId.isValid(id);
     if (!isValid) return null;
@@ -33,7 +33,7 @@ const getById = async (id) => {
 };
 
 const excludeRecipe = async (id) => {
-    const isValid = ObjectId.isValid(id);
+    const isValid = ObjectId.isValid(id);    
     if (!isValid) return null;
 
     const db = await connection();
@@ -54,7 +54,8 @@ const addImageRecipe = async (id, path) => {
     const db = await connection();
     const updatedRecipe = await db
         .collection('recipes')
-        .updateOne({ _id: ObjectId(id) }, { $set: { image: `localhost:3000/${path}` } });  
+        .updateOne({ _id: ObjectId(id) }, { $set: { image: `localhost:3000/${path}` } });
+
     return updatedRecipe;
 };
 
@@ -71,6 +72,6 @@ export {
     excludeRecipe,
     updateRecipe,
     addImageRecipe,
-    getImageId,
+    getImageId,    
     listRecipeById,
 };
