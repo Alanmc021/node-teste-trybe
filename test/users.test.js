@@ -5,6 +5,10 @@ require('dotenv').config();
 const mongoDbUrl = 'mongodb://127.0.0.1:27017';
 const url = 'http://localhost:3000';
 
+ 
+// const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
+// const DB_NAME = 'Cookmaster';
+
 describe('1 - Crie um endpoint para o cadastro de usuários', () => {
   let connection;
   let db;
@@ -40,8 +44,8 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
-        const result = JSON.parse(body);
-        expect(result).toBe('Invalid entries. Try again.');
+        const result = JSON.parse(body);     
+        expect(result.message).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -56,7 +60,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result).toBe('Invalid entries. Try again.');
+        expect(result.message).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -72,7 +76,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result).toBe('Invalid entries. Try again.');
+        expect(result.message).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -87,7 +91,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result).toBe('Invalid entries. Try again.');
+        expect(result.message).toBe('Invalid entries. Try again.');
       });
   });
 
@@ -114,7 +118,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
-        expect(result).toBe('Email already registered');
+        expect(result.message).toBe('Email already registered');
       });
   });
 
@@ -340,7 +344,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
       });
 
     await frisby
-      .put(`${url}/recipes/${resultRecipes.recipe._id}`, {
+      .put(`${url}/recipes/${resultRecipes.result._id}`, {
         name: 'Receita de frango do Jacquin editado',
         ingredients: 'Frango editado',
         preparation: '10 min no forno editado',
@@ -395,7 +399,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}`, {
+      .put(`${url}/recipes/${resultRecipes.result._id}`, {
         name: 'Receita de frango do Jacquin editado',
         ingredients: 'Frango editado',
         preparation: '10 min no forno editado',
@@ -451,7 +455,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}`, {
+      .put(`${url}/recipes/${resultRecipes.result._id}`, {
         name: 'Receita de frango do Jacquin editado',
         ingredients: 'Frango editado',
         preparation: '10 min no forno editado',
@@ -522,7 +526,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}`, {
+      .put(`${url}/recipes/${resultRecipes.result._id}`, {
         name: 'Receita de frango do Jacquin editado',
         ingredients: 'Frango editado',
         preparation: '10 min no forno editado',

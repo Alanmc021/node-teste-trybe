@@ -4,6 +4,10 @@ const { MongoClient } = require('mongodb');
 const MONGO_DB_URL = 'mongodb://127.0.0.1:27017';
 const DB_NAME = 'Cookmaster';
 
+// require('dotenv').config();
+// const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
+// const DB_NAME = 'Cookmaster';
+
 const connection = () => MongoClient
     .connect(MONGO_DB_URL, {
         useNewUrlParser: true,

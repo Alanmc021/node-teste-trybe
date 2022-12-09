@@ -32,12 +32,26 @@ const login = async ({ req }) => {
 
     const userExist = await confirmeUserAndPassword(email, password);
     if (userExist.erro === 401) return (userExist);
-    if (userExist.erro === 200) return (userExist);  
+    if (userExist.erro === 200) return (userExist);
 
     return userExist;
+};
+
+const adminCreate = async ({ req, role }) => {
+    const { email, password, name, id } = req.body;
+
+    const usuario = await userExists({ email });
+    if (usuario) return { erro: 'Email already exists', statusCode: 403 };
+
+    if (role === 'admin') {
+        await newUser({ email, password, name, role });
+        return { id, email, password, name, role };
+    }
+    return { erro: 'Only admins can register new admins', statusCode: 201 };
 };
 
 export {
     create,
     login,
+    adminCreate,
 };
