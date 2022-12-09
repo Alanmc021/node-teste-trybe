@@ -27,6 +27,4 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.put('/recipes/:id/image', verififyToken, upload.single('image'), recipeControllers.uploadImage);
 app.get('/images/:id', recipeControllers.getImageById);
 
-// Será validado que o projeto tem um arquivo de seed, com um comando para inserir um usuário root e verifico que é possível fazer login;
-
 module.exports = app;

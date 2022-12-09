@@ -4,13 +4,11 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { toWeb } = require('form-data');
-// const { expect } = require('chai');
+ 
+require('dotenv').config();
 
-
-// const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
-// const DB_NAME = 'Cookmaster';
-const mongoDbUrl = 'mongodb://127.0.0.1:27017';
-const url = 'http://localhost:3000';
+const mongoDbUrl = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
+const url = 'Cookmaster';
 
 describe('3 - Crie um endpoint para o cadastro de receitas', () => {
     let connection;

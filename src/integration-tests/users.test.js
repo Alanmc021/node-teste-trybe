@@ -1,13 +1,10 @@
 const frisby = require('frisby');
 const { MongoClient } = require('mongodb');
+ 
 require('dotenv').config();
 
-const mongoDbUrl = 'mongodb://127.0.0.1:27017';
-const url = 'http://localhost:3000';
-
- 
-// const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
-// const DB_NAME = 'Cookmaster';
+const mongoDbUrl = `mongodb://${process.env.HOST || 'mongodb'}:27017/Cookmaster`;
+const url = 'Cookmaster';
 
 describe('1 - Crie um endpoint para o cadastro de usuários', () => {
   let connection;
